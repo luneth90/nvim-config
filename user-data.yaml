@@ -6,19 +6,21 @@
 # below using aliases (*). This block is for definitions and is
 # ignored by cloud-init during processing.
 # ===================================================================
-setup_variables:
-  username: &username "luneth"
-  nvim_url: &nvim_url "https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage"
-  nvim_config_repo: &nvim_config_repo "https://github.com/luneth90/nvim-config.git"
-  vectorcode_repo: &vectorcode_repo "git+https://github.com/Davidyz/VectorCode.git"
-
+write_files:
+  - path: /etc/environment
+    content: |
+      USERNAME="luneth"
+      NVIM_URL="https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage"
+      NVIM_CONFIG_REPO="https://github.com/luneth90/nvim-config.git"
+      VECTORCODE_REPO="git+https://github.com/Davidyz/VectorCode.git"
+    permissions: '0644'
 
 hostname: ubuntu-server
 timezone: utc
 
 # Create user
 users:
-  - name: *username
+  - name: luneth
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo
     shell: /bin/bash
@@ -41,44 +43,47 @@ packages:
 
 # Run commands to install user-specific tools
 runcmd:
+  # Use a literal block '|' for a clean, multi-line script.
+  # This script is then piped to 'su' to be executed as the '' user.
+  - |
+    #!/bin/bash
+    
+    source /etc/environment
+    cat <<'EOF' | su - $USERNAME
+    set -ex
 
-  - [ "pipx", "ensurepath", "--global" ]
+    # --- Install Tools ---
 
-  - [ su, -, *username, -c, |
-      set -ex
+    # Install Rust
+    curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
-      # --- Install Tools ---
+    # --- Configure Environment ---
+    
+    # Update .bashrc with correct environment variables for cargo 
+    echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
-      # Install Rust
-      curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+     # Install VectorCode from its GitHub repository
+    npm install tree-sitter-cli
+    pipx install $VECTORCODE_REPO
 
-      # --- Configure Environment ---
-      
-      # Update .bashrc with correct environment variables for cargo 
-      echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
+    # --- Setup Neovim ---
 
-       # Install VectorCode from its GitHub repository
-      npm install tree-sitter-cli
-      pipx install *vectorcode_repo
+    # Create a bin directory for local executables
+    mkdir -p ~/.local/bin
 
-      # --- Setup Neovim ---
+    # Download Neovim AppImage and make it executable
+    wget -O ~/.local/bin/nvim $NVIM_URL
+    chmod u+x ~/.local/bin/nvim
 
-      # Create a bin directory for local executables
-      mkdir -p ~/.local/bin
+    # Clone your Neovim config
+    # IMPORTANT: This assumes your config files (init.lua, etc.) are at the ROOT of the git repository.
+    git clone $NVIM_CONFIG_REPO ~/.config/nvim
 
-      # Download Neovim AppImage and make it executable
-      wget -O ~/.local/bin/nvim *nvim_url
-      chmod u+x ~/.local/bin/nvim
-
-      # Clone your Neovim config
-      # IMPORTANT: This assumes your config files (init.lua, etc.) are at the ROOT of the git repository.
-      git clone *nvim_config_repo ~/.config/nvim
-
-      # Sync Neovim plugins with Lazy.nvim
-      ~/.local/bin/nvim --headless "+Lazy! sync" +qall
-      
-      echo "--- User setup completed successfully ---"
-    ]
+    # Sync Neovim plugins with Lazy.nvim
+    ~/.local/bin/nvim --headless "+Lazy! sync" +qall
+    
+    echo "--- User setup completed successfully ---"
+    EOF
 
 # Optional: Set APT sources
 write_files:
