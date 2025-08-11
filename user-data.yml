@@ -3,7 +3,7 @@
 hostname: ubuntu-server
 timezone: utc
 
-# Create user 'luneth'
+# Create user
 users:
   - name: luneth
     sudo: ALL=(ALL) NOPASSWD:ALL
@@ -24,11 +24,12 @@ packages:
   - nodejs
   - npm
   - ripgrep
+  - pipx
 
 # Run commands to install user-specific tools
 runcmd:
   # Use a literal block '|' for a clean, multi-line script.
-  # This script is then piped to 'su' to be executed as the 'luneth' user.
+  # This script is then piped to 'su' to be executed as the '' user.
   - |
     #!/bin/bash
     cat <<'EOF' | su - luneth
@@ -39,13 +40,14 @@ runcmd:
     # Install Rust
     curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
-    # Install uv (Python tool)
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-
     # --- Configure Environment ---
     
-    # Update .bashrc with correct environment variables for cargo and uv
+    # Update .bashrc with correct environment variables for cargo 
     echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
+
+     # Install VectorCode from its GitHub repository
+    npm install tree-sitter-cli
+    pipx install 'git+https://github.com/Davidyz/VectorCode.git'
 
     # --- Setup Neovim ---
 
@@ -63,7 +65,7 @@ runcmd:
     # Sync Neovim plugins with Lazy.nvim
     ~/.local/bin/nvim --headless "+Lazy! sync" +qall
     
-    echo "--- User setup for luneth completed successfully ---"
+    echo "--- User setup completed successfully ---"
     EOF
 
 # Optional: Set APT sources
