@@ -1,11 +1,24 @@
 #cloud-config
 
+# ===================================================================
+# --- Configuration Variables ---
+# Define variables here using YAML anchors (&) and reference them
+# below using aliases (*). This block is for definitions and is
+# ignored by cloud-init during processing.
+# ===================================================================
+setup_variables:
+  username: &username "luneth"
+  nvim_url: &nvim_url "https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage"
+  nvim_config_repo: &nvim_config_repo "https://github.com/luneth90/nvim-config.git"
+  vectorcode_repo: &vectorcode_repo "git+https://github.com/Davidyz/VectorCode.git"
+
+
 hostname: ubuntu-server
 timezone: utc
 
 # Create user
 users:
-  - name: luneth
+  - name: *username
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo
     shell: /bin/bash
@@ -32,7 +45,7 @@ runcmd:
   # This script is then piped to 'su' to be executed as the '' user.
   - |
     #!/bin/bash
-    cat <<'EOF' | su - luneth
+    cat <<'EOF' | su - *username
     set -ex
 
     # --- Install Tools ---
@@ -47,7 +60,7 @@ runcmd:
 
      # Install VectorCode from its GitHub repository
     npm install tree-sitter-cli
-    pipx install 'git+https://github.com/Davidyz/VectorCode.git'
+    pipx install *vectorcode_repo
 
     # --- Setup Neovim ---
 
@@ -55,12 +68,12 @@ runcmd:
     mkdir -p ~/.local/bin
 
     # Download Neovim AppImage and make it executable
-    wget -O ~/.local/bin/nvim https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage
+    wget -O ~/.local/bin/nvim *nvim_url
     chmod u+x ~/.local/bin/nvim
 
     # Clone your Neovim config
     # IMPORTANT: This assumes your config files (init.lua, etc.) are at the ROOT of the git repository.
-    git clone https://github.com/luneth90/nvim-config.git ~/.config/nvim
+    git clone *nvim_config_repo ~/.config/nvim
 
     # Sync Neovim plugins with Lazy.nvim
     ~/.local/bin/nvim --headless "+Lazy! sync" +qall
