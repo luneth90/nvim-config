@@ -8,7 +8,7 @@ timezone: UTC
 
 # User configuration (create user without SSH setup)
 users:
-  - name: ubuntuuser
+  - name: user
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo
     shell: /bin/bash
@@ -34,17 +34,17 @@ packages:
 runcmd:
   - apt-get update && apt-get upgrade -y  # Ensure system is fully updated
   - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y  # Install rustup
-  - /home/ubuntuuser/.cargo/bin/rustup update  # Update Rust to latest version
-  - echo 'source $HOME/.cargo/env' >> /home/ubuntuuser/.bashrc  # Add Rust env to user bashrc
-  - su - ubuntuuser -c "curl -LsSf https://astral.sh/uv/install.sh | sh"  # Install uv tool
-  - echo 'source $HOME/.local/bin/uv' >> /home/ubuntuuser/.bashrc  # Add uv to user bashrc (adjust based on uv install path)
-  - su - ubuntuuser -c "mkdir -p /home/ubuntuuser/bin && wget -O /home/ubuntuuser/bin/nvim.appimage https://github.com/neovim/neovim/releases/latest/download/nvim.appimage"  # Download Neovim AppImage
-  - su - ubuntuuser -c "chmod +x /home/ubuntuuser/bin/nvim.appimage"  # Make Neovim AppImage executable
-  - su - ubuntuuser -c "ln -sf /home/ubuntuuser/bin/nvim.appimage /home/ubuntuuser/bin/nvim"  # Create symlink for convenience
-  - su - ubuntuuser -c "git clone https://github.com/luneth90/nvim-config.git /home/ubuntuuser/.config/nvim"  # Clone your Neovim config
-  - chown -R ubuntuuser:ubuntuuser /home/ubuntuuser/.bashrc /home/ubuntuuser/.config/nvim /home/ubuntuuser/bin  # Ensure correct permissions
+  - /home/user/.cargo/bin/rustup update  # Update Rust to latest version
+  - echo 'source $HOME/.cargo/env' >> /home/user/.bashrc  # Add Rust env to user bashrc
+  - su - user -c "curl -LsSf https://astral.sh/uv/install.sh | sh"  # Install uv tool
+  - echo 'source $HOME/.local/bin/uv' >> /home/user/.bashrc  # Add uv to user bashrc (adjust based on uv install path)
+  - su - user -c "mkdir -p /home/user/bin && wget -O /home/user/bin/nvim.appimage https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage  # Download Neovim AppImage
+  - su - user -c "chmod +x /home/user/bin/nvim.appimage"  # Make Neovim AppImage executable
+  - su - user -c "ln -sf /home/user/bin/nvim.appimage /home/user/bin/nvim"  # Create symlink for convenience
+  - su - user -c "git clone https://github.com/luneth90/nvim-config.git /home/user/.config/nvim"  # Clone your Neovim config
+  - chown -R user:user /home/user/.bashrc /home/user/.config/nvim /home/user/bin  # Ensure correct permissions
   # If using lazy.nvim
-  - su - ubuntuuser -c "/home/ubuntuuser/bin/nvim --headless +Lazy sync +qall"
+  - su - user -c "/home/user/bin/nvim --headless +Lazy sync +qall"
 
 # Write files (configure apt sources for faster mirrors, optional)
 write_files:
