@@ -40,9 +40,8 @@ runcmd:
   - echo 'source $HOME/.local/bin/uv' >> /home/archuser/.bashrc  # 添加 uv 到用户 bashrc（根据 uv 安装路径调整）
   - su - archuser -c "git clone https://github.com/luneth90/nvim-config.git /home/archuser/.config/nvim"  # 克隆你的 Neovim 配置文件
   - chown -R archuser:archuser /home/archuser/.bashrc /home/archuser/.config/nvim  # 确保文件和目录权限正确
-  - su - archuser -c "nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"  # 示例：安装 Neovim 插件（假设使用 Packer）
-  # 如果使用 lazy.nvim，替换为：
-  # - su - archuser -c "nvim --headless +Lazy sync +qall"
+  # 使用 lazy.nvim
+  - su - archuser -c "nvim --headless +Lazy sync +qall"
 
 # 写入文件（配置 pacman 镜像）
 write_files:
