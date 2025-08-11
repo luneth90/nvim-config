@@ -41,11 +41,10 @@ packages:
 
 # Run commands to install user-specific tools
 runcmd:
-  # Use a literal block '|' for a clean, multi-line script.
-  # This script is then piped to 'su' to be executed as the '' user.
-  - |
-    #!/bin/bash
-    cat <<'EOF' | su - *username
+
+  - pipx ensurepath --global
+
+  - su - *username -c |
     set -ex
 
     # --- Install Tools ---
@@ -79,7 +78,6 @@ runcmd:
     ~/.local/bin/nvim --headless "+Lazy! sync" +qall
     
     echo "--- User setup completed successfully ---"
-    EOF
 
 # Optional: Set APT sources
 write_files:
