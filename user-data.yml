@@ -1,0 +1,60 @@
+#cloud-config
+
+# Set hostname (optional)
+hostname: ubuntu-server
+
+# Set timezone (adjust as needed)
+timezone: UTC
+
+# User configuration (create user without SSH setup)
+users:
+  - name: ubuntuuser
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: sudo
+    shell: /bin/bash
+
+# Update system and install packages
+package_update: true
+package_upgrade: true
+
+# Install specified packages
+packages:
+  - build-essential  # Equivalent to base-devel (includes make, gcc, etc.)
+  - wget
+  - git
+  - curl
+  - python3
+  - python3-pip
+  - lua5.3
+  - nodejs
+  - npm
+  - ripgrep
+
+# Run commands to install Rust, uv, and Neovim via AppImage
+runcmd:
+  - apt-get update && apt-get upgrade -y  # Ensure system is fully updated
+  - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y  # Install rustup
+  - /home/ubuntuuser/.cargo/bin/rustup update  # Update Rust to latest version
+  - echo 'source $HOME/.cargo/env' >> /home/ubuntuuser/.bashrc  # Add Rust env to user bashrc
+  - su - ubuntuuser -c "curl -LsSf https://astral.sh/uv/install.sh | sh"  # Install uv tool
+  - echo 'source $HOME/.local/bin/uv' >> /home/ubuntuuser/.bashrc  # Add uv to user bashrc (adjust based on uv install path)
+  - su - ubuntuuser -c "mkdir -p /home/ubuntuuser/bin && wget -O /home/ubuntuuser/bin/nvim.appimage https://github.com/neovim/neovim/releases/latest/download/nvim.appimage"  # Download Neovim AppImage
+  - su - ubuntuuser -c "chmod +x /home/ubuntuuser/bin/nvim.appimage"  # Make Neovim AppImage executable
+  - su - ubuntuuser -c "ln -sf /home/ubuntuuser/bin/nvim.appimage /home/ubuntuuser/bin/nvim"  # Create symlink for convenience
+  - su - ubuntuuser -c "git clone https://github.com/luneth90/nvim-config.git /home/ubuntuuser/.config/nvim"  # Clone your Neovim config
+  - chown -R ubuntuuser:ubuntuuser /home/ubuntuuser/.bashrc /home/ubuntuuser/.config/nvim /home/ubuntuuser/bin  # Ensure correct permissions
+  # If using lazy.nvim
+  - su - ubuntuuser -c "/home/ubuntuuser/bin/nvim --headless +Lazy sync +qall"
+
+# Write files (configure apt sources for faster mirrors, optional)
+write_files:
+  - path: /etc/apt/sources.list
+    content: |
+      deb http://archive.ubuntu.com/ubuntu/ noble main restricted universe multiverse
+      deb http://archive.ubuntu.com/ubuntu/ noble-updates main restricted universe multiverse
+      deb http://archive.ubuntu.com/ubuntu/ noble-backports main restricted universe multiverse
+      deb http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse
+    permissions: '0644'
+
+# Final message
+final_message: "Ubuntu setup completed after $UPTIME seconds"
