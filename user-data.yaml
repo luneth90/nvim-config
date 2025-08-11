@@ -63,8 +63,14 @@ runcmd:
     # IMPORTANT: This assumes your config files (init.lua, etc.) are at the ROOT of the git repository.
     git clone https://github.com/luneth90/nvim-config.git ~/.config/nvim
 
+    mkdir -p ~/code/rust
+    git clone https://github.com/luneth90/lambdaworks.git ~/code/rust/
+
     # Sync Neovim plugins with Lazy.nvim
     ~/.local/bin/nvim --headless "+Lazy! sync" +qall
+
+    #openrouter config
+    cp ~/.config/nvim/openrouter.lua ~/.local/share/nvim/lazy/codecompanion.nvim/lua/codecompanion/utils/
     
     echo "--- User setup completed successfully ---"
     EOF
