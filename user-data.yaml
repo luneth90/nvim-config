@@ -42,42 +42,43 @@ packages:
 # Run commands to install user-specific tools
 runcmd:
 
-  - pipx ensurepath --global
+  - [ "pipx", "ensurepath", "--global" ]
 
-  - su - *username -c |
-    set -ex
+  - [ su, -, *username, -c, |
+      set -ex
 
-    # --- Install Tools ---
+      # --- Install Tools ---
 
-    # Install Rust
-    curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      # Install Rust
+      curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
-    # --- Configure Environment ---
-    
-    # Update .bashrc with correct environment variables for cargo 
-    echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
+      # --- Configure Environment ---
+      
+      # Update .bashrc with correct environment variables for cargo 
+      echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
-     # Install VectorCode from its GitHub repository
-    npm install tree-sitter-cli
-    pipx install *vectorcode_repo
+       # Install VectorCode from its GitHub repository
+      npm install tree-sitter-cli
+      pipx install *vectorcode_repo
 
-    # --- Setup Neovim ---
+      # --- Setup Neovim ---
 
-    # Create a bin directory for local executables
-    mkdir -p ~/.local/bin
+      # Create a bin directory for local executables
+      mkdir -p ~/.local/bin
 
-    # Download Neovim AppImage and make it executable
-    wget -O ~/.local/bin/nvim *nvim_url
-    chmod u+x ~/.local/bin/nvim
+      # Download Neovim AppImage and make it executable
+      wget -O ~/.local/bin/nvim *nvim_url
+      chmod u+x ~/.local/bin/nvim
 
-    # Clone your Neovim config
-    # IMPORTANT: This assumes your config files (init.lua, etc.) are at the ROOT of the git repository.
-    git clone *nvim_config_repo ~/.config/nvim
+      # Clone your Neovim config
+      # IMPORTANT: This assumes your config files (init.lua, etc.) are at the ROOT of the git repository.
+      git clone *nvim_config_repo ~/.config/nvim
 
-    # Sync Neovim plugins with Lazy.nvim
-    ~/.local/bin/nvim --headless "+Lazy! sync" +qall
-    
-    echo "--- User setup completed successfully ---"
+      # Sync Neovim plugins with Lazy.nvim
+      ~/.local/bin/nvim --headless "+Lazy! sync" +qall
+      
+      echo "--- User setup completed successfully ---"
+    ]
 
 # Optional: Set APT sources
 write_files:
