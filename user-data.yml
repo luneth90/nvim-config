@@ -27,39 +27,46 @@ packages:
 
 # Run commands to install user-specific tools
 runcmd:
-  # Install Rust, uv, Neovim, and setup config all as the 'luneth' user
-  # The 'su - luneth' ensures commands run in the correct user environment,
-  # setting $HOME correctly and placing files in /home/luneth.
-  - su - luneth -c '
-    set -ex;
-    
+  # Use a literal block '|' for a clean, multi-line script.
+  # This script is then piped to 'su' to be executed as the 'luneth' user.
+  - |
+    #!/bin/bash
+    cat <<'EOF' | su - luneth
+    set -ex
+
+    # --- Install Tools ---
+
     # Install Rust
-    curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y;
+    curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+    # Install uv (Python tool)
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    # --- Configure Environment ---
     
-    # Install uv (virtual env tool)
-    curl -LsSf https://astral.sh/uv/install.sh | sh;
-    
-    # Update .bashrc with correct environment variables
-    # Use double quotes to allow $HOME expansion.
-    echo "export PATH=\"$HOME/.cargo/bin:$HOME/.local/bin:$PATH\"" >> ~/.bashrc;
-    
+    # Update .bashrc with correct environment variables for cargo and uv
+    echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
+
+    # --- Setup Neovim ---
+
     # Create a bin directory for local executables
-    mkdir -p ~/.local/bin;
-    
-    # Download Neovim AppImage using correct wget flag (-O)
-    wget -O ~/.local/bin/nvim https://github.com/neovim/neovim/releases/latest/download/nvim.appimage;
-    
-    # Make it executable
-    chmod u+x ~/.local/bin/nvim;
+    mkdir -p ~/.local/bin
 
-    # Clone Neovim config to the correct directory (~/.config/nvim)
-    git clone https://github.com/luneth90/nvim-config.git ~/.config/nvim;
-    
+    # Download Neovim AppImage and make it executable
+    wget -O ~/.local/bin/nvim https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    chmod u+x ~/.local/bin/nvim
+
+    # Clone your Neovim config
+    # IMPORTANT: This assumes your config files (init.lua, etc.) are at the ROOT of the git repository.
+    git clone https://github.com/luneth90/nvim-config.git ~/.config/nvim
+
     # Sync Neovim plugins with Lazy.nvim
-    ~/.local/bin/nvim --headless "+Lazy! sync" +qall;
-    '
+    ~/.local/bin/nvim --headless "+Lazy! sync" +qall
+    
+    echo "--- User setup for luneth completed successfully ---"
+    EOF
 
-# Optional: Set APT sources (no change needed here)
+# Optional: Set APT sources
 write_files:
   - path: /etc/apt/sources.list
     content: |
