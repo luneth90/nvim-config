@@ -1,0 +1,66 @@
+#cloud-config
+
+# 设置主机名（可选）
+hostname: arch-linux
+
+# 设置时区（根据需要调整）
+timezone: UTC
+
+# 用户配置（创建用户但不配置 SSH）
+users:
+  - name: archuser
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: wheel
+    shell: /bin/bash
+
+# 更新系统并安装软件包
+package_update: true
+package_upgrade: true
+
+# 安装指定的软件包
+packages:
+  - base-devel  # 包含 make、gcc 等基础开发工具
+  - wget
+  - git
+  - curl
+  - python
+  - lua
+  - nodejs
+  - npm
+  - neovim
+  - ripgrep
+
+# 运行命令来安装最新版本的 Rust、uv 和配置 Neovim
+runcmd:
+  - pacman -Syu --noconfirm  # 确保系统完全更新
+  - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y  # 安装 rustup
+  - /root/.cargo/bin/rustup update  # 更新 Rust 到最新版本
+  - echo 'source $HOME/.cargo/env' >> /home/archuser/.bashrc  # 将 Rust 环境变量添加到用户 bashrc
+  - su - archuser -c "curl -LsSf https://astral.sh/uv/install.sh | sh"  # 安装 uv 工具
+  - echo 'source $HOME/.local/bin/uv' >> /home/archuser/.bashrc  # 添加 uv 到用户 bashrc（根据 uv 安装路径调整）
+  - su - archuser -c "git clone https://github.com/luneth90/nvim-config.git /home/archuser/.config/nvim"  # 克隆你的 Neovim 配置文件
+  - chown -R archuser:archuser /home/archuser/.bashrc /home/archuser/.config/nvim  # 确保文件和目录权限正确
+  - su - archuser -c "nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"  # 示例：安装 Neovim 插件（假设使用 Packer）
+  # 如果使用 lazy.nvim，替换为：
+  # - su - archuser -c "nvim --headless +Lazy sync +qall"
+
+# 写入文件（配置 pacman 镜像）
+write_files:
+  - path: /etc/pacman.conf
+    content: |
+      [options]
+      Architecture = auto
+      Color
+      CheckSpace
+      SigLevel = Required DatabaseOptional
+      LocalFileSigLevel = Optional
+      [core]
+      Include = /etc/pacman.d/mirrorlist
+      [extra]
+      Include = /etc/pacman.d/mirrorlist
+      [community]
+      Include = /etc/pacman.d/mirrorlist
+    permissions: '0644'
+
+# 最终消息
+final_message: "Arch Linux setup completed after $UPTIME seconds"
