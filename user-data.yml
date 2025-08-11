@@ -1,25 +1,20 @@
 #cloud-config
 
-# Set hostname (optional)
 hostname: ubuntu-server
+timezone: utc
 
-# Set timezone (adjust as needed)
-timezone: UTC
-
-# User configuration (create user without SSH setup)
+# Create user 'luneth'
 users:
-  - name: user
+  - name: luneth
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo
     shell: /bin/bash
 
-# Update system and install packages
+# Update system and install base packages
 package_update: true
 package_upgrade: true
-
-# Install specified packages
 packages:
-  - build-essential  # Equivalent to base-devel (includes make, gcc, etc.)
+  - build-essential
   - wget
   - git
   - curl
@@ -30,23 +25,41 @@ packages:
   - npm
   - ripgrep
 
-# Run commands to install Rust, uv, and Neovim via AppImage
+# Run commands to install user-specific tools
 runcmd:
-  - apt-get update && apt-get upgrade -y  # Ensure system is fully updated
-  - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y  # Install rustup
-  - /home/user/.cargo/bin/rustup update  # Update Rust to latest version
-  - echo 'source $HOME/.cargo/env' >> /home/user/.bashrc  # Add Rust env to user bashrc
-  - su - user -c "curl -LsSf https://astral.sh/uv/install.sh | sh"  # Install uv tool
-  - echo 'source $HOME/.local/bin/uv' >> /home/user/.bashrc  # Add uv to user bashrc (adjust based on uv install path)
-  - su - user -c "mkdir -p /home/user/bin && wget -O /home/user/bin/nvim.appimage https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage  # Download Neovim AppImage
-  - su - user -c "chmod +x /home/user/bin/nvim.appimage"  # Make Neovim AppImage executable
-  - su - user -c "ln -sf /home/user/bin/nvim.appimage /home/user/bin/nvim"  # Create symlink for convenience
-  - su - user -c "git clone https://github.com/luneth90/nvim-config.git /home/user/.config/nvim"  # Clone your Neovim config
-  - chown -R user:user /home/user/.bashrc /home/user/.config/nvim /home/user/bin  # Ensure correct permissions
-  # If using lazy.nvim
-  - su - user -c "/home/user/bin/nvim --headless +Lazy sync +qall"
+  # Install Rust, uv, Neovim, and setup config all as the 'luneth' user
+  # The 'su - luneth' ensures commands run in the correct user environment,
+  # setting $HOME correctly and placing files in /home/luneth.
+  - su - luneth -c '
+    set -ex;
+    
+    # Install Rust
+    curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y;
+    
+    # Install uv (virtual env tool)
+    curl -LsSf https://astral.sh/uv/install.sh | sh;
+    
+    # Update .bashrc with correct environment variables
+    # Use double quotes to allow $HOME expansion.
+    echo "export PATH=\"$HOME/.cargo/bin:$HOME/.local/bin:$PATH\"" >> ~/.bashrc;
+    
+    # Create a bin directory for local executables
+    mkdir -p ~/.local/bin;
+    
+    # Download Neovim AppImage using correct wget flag (-O)
+    wget -O ~/.local/bin/nvim https://github.com/neovim/neovim/releases/latest/download/nvim.appimage;
+    
+    # Make it executable
+    chmod u+x ~/.local/bin/nvim;
 
-# Write files (configure apt sources for faster mirrors, optional)
+    # Clone Neovim config to the correct directory (~/.config/nvim)
+    git clone https://github.com/luneth90/nvim-config.git ~/.config/nvim;
+    
+    # Sync Neovim plugins with Lazy.nvim
+    ~/.local/bin/nvim --headless "+Lazy! sync" +qall;
+    '
+
+# Optional: Set APT sources (no change needed here)
 write_files:
   - path: /etc/apt/sources.list
     content: |
