@@ -47,7 +47,7 @@ runcmd:
     echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
      # Install VectorCode from its GitHub repository
-    cargo install --locked tree-sitter-cli
+    ~/.cargo/bin/cargo install --locked tree-sitter-cli
     pipx install git+https://github.com/Davidyz/VectorCode.git
 
     # --- Setup Neovim ---
