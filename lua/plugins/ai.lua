@@ -35,7 +35,7 @@ return {
     "olimorris/codecompanion.nvim",
     cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
     opts = {
-      language = "Chinese",
+      language = "English",
       adapters = {
         gemini = function()
           return require("codecompanion.adapters").extend("gemini", {
@@ -89,7 +89,7 @@ return {
           opts = {
             mapping = "<leader>ce",
             modes = { "v" },
-            short_name = "expert",
+            short_name = "code",
             auto_submit = true,
             stop_context_insertion = true,
             user_prompt = true,
@@ -286,7 +286,7 @@ return {
       {
         "<leader>ce", 
         function()
-          require("codecompanion").prompt("expert")
+          require("codecompanion").prompt("code")
         end, 
         mode = {"n","v" },
         desc = "Explain code.",
@@ -297,7 +297,7 @@ return {
           require("codecompanion").prompt("crypto")
         end, 
         mode = {"n"},
-        desc = "Analysis crypto code.",
+        desc = "Analyze crypto code.",
       },
     },
 
@@ -307,130 +307,4 @@ return {
       "ravitemer/codecompanion-history.nvim",
     },
   },
-
-  --[[
-  { 
-    "yetone/avante.nvim", 
-    version = false, -- Never set this value to "*"! Never!
-    event = "VeryLazy", 
-    opts = {
-      windows = {
-        position = "right", -- 侧边栏位置
-        wrap = true,
-        width = 40, -- 侧边栏宽度，占屏幕百分比（如 40%）
-        height = 30, -- 侧边栏高度，占屏幕百分比（仅在 position 为 top/bottom 时有效）
-        input = {
-          height = 8, -- 输入窗口高度（垂直布局）
-        },
-      },
-      -- gemini
-      provider = "gemini",
-      system_prompt = system_prompt_info_rust_en,
-      providers = {
-        gemini= {
-            model = 'gemini-2.5-pro',
-            proxy = "http://127.0.0.1:6152", -- proxy support, e.g., http://127.0.0.1:7890
-            timeout = 30000000,
-            temperature = 0,
-            max_tokens = 1000000,
-        },
-        openrouter = {
-          __inherited_from = 'openai',
-          endpoint = 'https://openrouter.ai/api/v1',
-          api_key_name = 'OPENROUTER_API_KEY',
-          model = 'qwen/qwen3-coder',
-          proxy = "http://127.0.0.1:6152", -- proxy support, e.g., http://127.0.0.1:7890
-          timeout = 30000000,
-          max_tokens = 1000000,
-        },
-        qwen = {
-          __inherited_from = "openai",
-          api_key_name = "DASHSCOPE_API_KEY",
-          endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
-          model = "qwen3-coder-plus",
-        },
-      },
-      rag_service = { -- RAG Service configuration
-        enabled = false, -- Enables the RAG service
-        host_mount = "/Users/luneth/code/rust/lambdaworks/crates/",
-        runner = "docker", -- Runner for the RAG service (can use docker or nix)
-        llm = { -- Language Model (LLM) configuration for RAG service
-          provider = "dashscope", -- LLM provider
-          endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
-          api_key = "DASHSCOPE_API_KEY", -- Environment variable name for the LLM API key
-          model = "qwen3-coder-plus", -- LLM model name
-          proxy = "http://127.0.0.1:6152", -- proxy support, e.g., http://127.0.0.1:7890
-          extra = nil, -- Additional configuration options for LLM
-        },
-        embed = { -- Embedding model configuration for RAG service
-          provider = "dashscope", -- Embedding provider
-          endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
-          api_key = "DASHSCOPE_API_KEY", -- Environment variable name for the LLM API key
-          model = "text-embedding-v4", -- The Embedding model name (e.g., "text-embedding-v2")
-          proxy = "http://127.0.0.1:6152", -- proxy support, e.g., http://127.0.0.1:7890
-          extra = { -- Extra configuration options for the Embedding model (optional)
-            embed_batch_size = 10,
-          },
-        },
-        docker_extra_args = "", -- Extra arguments to pass to the docker command
-      },
-    },
-    build = "make", 
-    dependencies = { 
-      "nvim-treesitter/nvim-treesitter", 
-      "stevearc/dressing.nvim", 
-      "nvim-lua/plenary.nvim", 
-      "MunifTanjim/nui.nvim", 
-      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            -- required for Windows users
-            use_absolute_path = true,
-          },
-        },
-      },
-    }, 
-    keys = {
-      { "<leader>aa", ":AvanteAsk<CR>", desc = "Ask Avante" },
-      { "<leader>at", ":AvanteToggle<CR>", desc = "toggle Avante" },
-      { "<leader>ae", ":AvanteEdit<CR>", desc = "Edit with Avante" },
-      { "<leader>ar", ":AvanteRefresh<CR>", desc = "Refresh Avante" },
-      { "<leader>aC", ":AvanteClear<CR>", desc = "Clear Avante" },
-      { "<leader>an", ":AvanteChatNew<CR>", desc = "New Chat Avante" },
-      { "<leader>af", ":AvanteFocus<CR>", desc = "Focus Avante" },
-      { "<leader>ah", ":AvanteHistory<CR>", desc = "History Avante" },
-      {
-            "<leader>a+",
-            function()
-                local tree_ext = require("avante.extensions.nvim_tree")
-                tree_ext.add_file()
-            end,
-            desc = "Select file in NvimTree",
-            ft = "NvimTree",
-        },
-        {
-            "<leader>a-",
-            function()
-                local tree_ext = require("avante.extensions.nvim_tree")
-                tree_ext.remove_file()
-            end,
-            desc = "Deselect file in NvimTree",
-            ft = "NvimTree",
-        },
-    },
-  },
-  ]]--
-
 }
