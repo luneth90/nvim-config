@@ -42,6 +42,9 @@ runcmd:
     # Install Rust
     curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
+    # Install deno
+    curl --proto "=https" --tlsv1.2 -sSf https://deno.land/install.sh | sh -s -- -y
+
     # --- Configure Environment ---
     
     # Update .bashrc with correct environment variables for cargo 
@@ -49,9 +52,6 @@ runcmd:
 
     # Install tree-sitter-cli from sources
     ~/.cargo/bin/cargo install --locked tree-sitter-cli
-
-    # Install deno from sources
-    ~/.cargo/bin/cargo install --locked deno
 
     # Install VectorCode from its GitHub repository
     pipx install git+https://github.com/Davidyz/VectorCode.git
