@@ -47,8 +47,9 @@ runcmd:
 
     # --- Configure Environment ---
     
-    # Update .bashrc with correct environment variables for cargo 
+    # Update .bashrc with correct environment variables for cargo and deno
     echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
+    echo 'export PATH="$HOME/.deno/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
     # Install tree-sitter-cli from sources
     ~/.cargo/bin/cargo install --locked tree-sitter-cli
