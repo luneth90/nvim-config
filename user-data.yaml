@@ -43,7 +43,7 @@ runcmd:
     curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
     # Install deno
-    curl --proto "=https" --tlsv1.2 -sSf https://deno.land/install.sh | sh -s -- -y
+    curl -sSfL https://deno.land/install.sh | sh -s -- -y
 
     # --- Configure Environment ---
     
