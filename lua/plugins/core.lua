@@ -17,7 +17,21 @@ return {
   { "tpope/vim-sleuth", event = "BufReadPost" },
   -- 括号自动补全
   { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
-
+  -- MD 实时预览，支持服务器nvim打开本地浏览器
+  {
+    "toppair/peek.nvim",
+    event = { "VeryLazy" },
+    build = "deno task --quiet build:fast",
+    config = function()
+        require("peek").setup({
+          app = 'browser',          -- 'webview', 'browser', string or a table of strings
+          filetype = { 'markdown','codecompanion' },
+        })
+        vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+        vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
+    end,
+  },
+  -- MD nvim简单预览，不支持Latex
   {
     "MeanderingProgrammer/render-markdown.nvim",
     lazy = false,

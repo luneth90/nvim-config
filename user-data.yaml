@@ -24,6 +24,7 @@ packages:
   - nodejs
   - npm
   - ripgrep
+  - unzip
   - pipx
 
 # Run commands to install user-specific tools
@@ -46,8 +47,13 @@ runcmd:
     # Update .bashrc with correct environment variables for cargo 
     echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
-     # Install VectorCode from its GitHub repository
+    # Install tree-sitter-cli from sources
     ~/.cargo/bin/cargo install --locked tree-sitter-cli
+
+    # Install deno from sources
+    ~/.cargo/bin/cargo install --locked deno
+
+    # Install VectorCode from its GitHub repository
     pipx install git+https://github.com/Davidyz/VectorCode.git
 
     # --- Setup Neovim ---
