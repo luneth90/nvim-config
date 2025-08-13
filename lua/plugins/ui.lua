@@ -1,8 +1,14 @@
 return {
-  {'akinsho/toggleterm.nvim', version = "*", config=true, opts= {
-    direction="float",
-    open_mapping = [[<c-t>]],
-  }},
+
+  -- 弹出式终端
+  {'akinsho/toggleterm.nvim', version = "*", config=true, 
+    opts= {
+      direction="float",
+      open_mapping = [[<c-t>]],
+    }
+  },
+
+  -- 主题
   { "rebelot/kanagawa.nvim", 
     lazy = false, -- 确保主题立即加载
     priority = 1000, -- 优先级高，确保主题在其他插件之前加载

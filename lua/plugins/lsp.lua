@@ -26,7 +26,7 @@ return {
   -- 语法高亮，核心插件
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
     require("nvim-treesitter.configs").setup({
-      ensure_installed = {"latex","c", "lua", "vim", "vimdoc", "rust", "python", "javascript", "html", "toml", "yaml", "css", "typescript","markdown","markdown_inline" },
+      ensure_installed = {"c", "lua", "vim", "vimdoc", "rust", "python", "javascript", "html", "toml", "yaml", "css", "typescript","markdown","markdown_inline" },
       sync_install = true,
       highlight = { enable = true },
       incremental_selection = {

@@ -38,6 +38,22 @@ return {
     priority = 49,
     ft = { "markdown", "codecompanion"}
   },
+
+  -- 书签管理
+  {
+    "otavioschwanck/arrow.nvim",
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons" },
+      -- or if using `mini.icons`
+      -- { "echasnovski/mini.icons" },
+    },
+    opts = {
+      show_icons = true,
+      buffer_leader_key = 'm', -- Per Buffer Mappings
+    },
+  },
+
+  -- 自动保存会话状态
   {
     "rmagatti/auto-session",
     lazy = false,
@@ -52,6 +68,8 @@ return {
       bypass_save_filetypes = { "alpha"},
     },
   },
+
+  -- nvim 首页美化
   {
     "goolord/alpha-nvim",
     lazy = false,
@@ -74,14 +92,32 @@ return {
         "                                                      ",
       }
 
+      -- Set menu
+      dashboard.section.buttons.val = {
+          dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
+          dashboard.button("f", "  Find file", ":Telescope find_files <CR>"),
+          dashboard.button("r", "  Recent"   , ":Telescope oldfiles<CR>"),
+          dashboard.button("m", "  BookMarks", ":Telescope marks <CR>"),
+          dashboard.button("c", "  Config", ":e ~/.config/nvim<CR>"),
+          dashboard.button("l", "  Lazy", ":Lazy<CR>"),
+          dashboard.button("m", "  Mason", ":Mason<CR>"),
+          dashboard.button("q", "Q  Quit", ":qa<CR>"),
+      }
+
       -- Set footer
+
+	  -- 获取 Neovim 版本
+	  local version = vim.version()
+	  local nvim_version = string.format("v%d.%d.%d", version.major, version.minor, version.patch)
+
       local lazy_stats = require("lazy").stats() -- Get Lazy.nvim stats
       dashboard.section.footer.val = {
         "If You Don't Take Risks, You Can't Create a Future.",
         " ",
         "                                  - Monkey D. Luffy",
         " ",
-        "             Plugins loaded: " .. lazy_stats.loaded .. " / " .. lazy_stats.count,
+        "             Plugins loaded: " .. lazy_stats.loaded .. " / " .. lazy_stats.count,
+        "             Neovim  Version: " .. nvim_version,
       }
 
       -- Send config to alpha
