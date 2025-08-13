@@ -91,24 +91,26 @@ return {
         "                    ░ ░           ░          ░ ░      ",
         "                                                      ",
       }
-
+      
       -- Set menu
       dashboard.section.buttons.val = {
-          dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
-          dashboard.button("f", "  Find file", ":Telescope find_files <CR>"),
-          dashboard.button("r", "  Recent"   , ":Telescope oldfiles<CR>"),
-          dashboard.button("m", "  BookMarks", ":Telescope marks <CR>"),
+          dashboard.button("n", "  New file", ":ene <BAR> startinsert<CR>"),
+          dashboard.button("f", "  Find file", ":Telescope find_files<CR>"),
+          dashboard.button("w", "  Find word", ":Telescope live_grep<CR>"),
+          dashboard.button("r", "  Recent file"   , ":Telescope oldfiles<CR>"),
+          dashboard.button("s", "  Open Session"   , ":SessionSearch<CR>"),
+          dashboard.button("b", "  Open BookMarks", ":Telescope marks<CR>"),
           dashboard.button("c", "  Config", ":e ~/.config/nvim<CR>"),
           dashboard.button("l", "  Lazy", ":Lazy<CR>"),
-          dashboard.button("m", "  Mason", ":Mason<CR>"),
-          dashboard.button("q", "Q  Quit", ":qa<CR>"),
+          dashboard.button("m", "󰂖  Mason", ":Mason<CR>"),
+          dashboard.button("q", "󰅚  Quit", ":qa<CR>"),
       }
 
       -- Set footer
 
-	  -- 获取 Neovim 版本
-	  local version = vim.version()
-	  local nvim_version = string.format("v%d.%d.%d", version.major, version.minor, version.patch)
+      -- 获取 Neovim 版本
+      local version = vim.version()
+      local nvim_version = string.format("v%d.%d.%d", version.major, version.minor, version.patch)
 
       local lazy_stats = require("lazy").stats() -- Get Lazy.nvim stats
       dashboard.section.footer.val = {
