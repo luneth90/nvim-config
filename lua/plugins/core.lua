@@ -64,6 +64,7 @@ return {
       { "<leader>wa", "<cmd>SessionToggleAutoSave<CR>", desc = "Toggle autosave" },
     },
     opts = {
+      auto_restore = false,
       suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
       bypass_save_filetypes = { "alpha"},
     },
