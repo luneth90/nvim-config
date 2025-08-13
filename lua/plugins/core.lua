@@ -49,6 +49,7 @@ return {
     },
     opts = {
       show_icons = true,
+      leader_key = ';', -- Per Buffer Mappings
       buffer_leader_key = 'm', -- Per Buffer Mappings
     },
   },

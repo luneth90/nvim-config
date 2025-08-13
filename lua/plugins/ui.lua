@@ -55,17 +55,33 @@ return {
     })
   end },
   -- Buffer 导航
-  { "romgrk/barbar.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, event = "BufRead", config = function()
-    require("barbar").setup({
-      icons = { filetype = { enabled = true } },
-      sidebar_filetypes = {
-        NvimTree = { text = "File Explorer", align = "center" },
-      },
-    })
-  end, keys = {
-    { "<leader>bb", "<cmd>BufferPick<CR>", desc = "Pick Buffer" },
-    { "<leader>bc", "<cmd>BufferClose<CR>", desc = "Close Buffer" },
-    { "<leader>bn", "<cmd>BufferNext<CR>", desc = "Next Buffer" },
-    { "<leader>bp", "<cmd>BufferPrevious<CR>", desc = "Previous Buffer" },
-  } },
+  { 
+    "romgrk/barbar.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, event = "BufRead", 
+    config = function()
+      require("barbar").setup({
+        icons = { filetype = { enabled = true } },
+        sidebar_filetypes = {
+          NvimTree = { text = "File Explorer", align = "center" },
+        },
+      })
+    end, 
+    keys = {
+      { "<leader>bb", "<cmd>BufferPick<CR>", desc = "Pick Buffer" },
+      { "<leader>bc", "<cmd>BufferClose<CR>", desc = "Close Buffer" },
+      { "<leader>bn", "<cmd>BufferNext<CR>", desc = "Next Buffer" },
+      { "<leader>bp", "<cmd>BufferPrevious<CR>", desc = "Previous Buffer" },
+      { "<leader>bl", "<cmd>BufferOrderByLanguage<CR>", desc = "Order By Language" },
+      { "<leader>bw", "<cmd>BufferOrderByWindowNumber<CR>", desc = "Oreder By window" },
+      { "<leader>b1", "<Cmd>BufferGoto 1<CR>", desc = "Goto Buffer 1" },
+      { "<leader>b2", "<Cmd>BufferGoto 2<CR>", desc = "Goto Buffer 2" },
+      { "<leader>b3", "<Cmd>BufferGoto 3<CR>", desc = "Goto Buffer 3" },
+      { "<leader>b4", "<Cmd>BufferGoto 4<CR>", desc = "Goto Buffer 4" },
+      { "<leader>b5", "<Cmd>BufferGoto 5<CR>", desc = "Goto Buffer 5" },
+      { "<leader>b6", "<Cmd>BufferGoto 6<CR>", desc = "Goto Buffer 6" },
+      { "<leader>b7", "<Cmd>BufferGoto 7<CR>", desc = "Goto Buffer 7" },
+      { "<leader>b8", "<Cmd>BufferGoto 8<CR>", desc = "Goto Buffer 8" },
+      { "<leader>b9", "<Cmd>BufferGoto 9<CR>", desc = "Goto Buffer 9" },
+      { "<leader>b0", "<Cmd>BufferGoto 0<CR>", desc = "Goto Buffer 0" },
+    }, 
+  },
 }
