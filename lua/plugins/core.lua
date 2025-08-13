@@ -21,7 +21,7 @@ return {
   {
     "toppair/peek.nvim",
     event = { "VeryLazy" },
-    build = "deno task --quiet build:fast",
+    build = "~/.deno/bin/deno task --quiet build:fast",
     config = function()
         require("peek").setup({
           app = 'browser',          -- 'webview', 'browser', string or a table of strings
@@ -37,6 +37,61 @@ return {
     lazy = false,
     priority = 49,
     ft = { "markdown", "codecompanion"}
+  },
+  {
+    "rmagatti/auto-session",
+    lazy = false,
+    keys = {
+      -- Will use Telescope if installed or a vim.ui.select picker otherwise
+      { "<leader>wr", "<cmd>SessionSearch<CR>", desc = "Session search" },
+      { "<leader>ws", "<cmd>SessionSave<CR>", desc = "Save session" },
+      { "<leader>wa", "<cmd>SessionToggleAutoSave<CR>", desc = "Toggle autosave" },
+    },
+    opts = {
+      suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+      bypass_save_filetypes = { "alpha"},
+    },
+  },
+  {
+    "goolord/alpha-nvim",
+    lazy = false,
+    config = function()
+      local alpha = require("alpha")
+      local dashboard = require("alpha.themes.dashboard")
+      -- Set header
+      dashboard.section.header.val = {
+        "                                                      ",
+        "    ▄▄▄██▀▀▀▒█████ ▓██   ██▓ ▄▄▄▄    ▒█████ ▓██   ██▓ ",
+        "      ▒██  ▒██▒  ██▒▒██  ██▒▓█████▄ ▒██▒  ██▒▒██  ██▒ ",
+        "      ░██  ▒██░  ██▒ ▒██ ██░▒██▒ ▄██▒██░  ██▒ ▒██ ██░ ",
+        "   ▓██▄██▓ ▒██   ██░ ░ ▐██▓░▒██░█▀  ▒██   ██░ ░ ▐██▓░ ",
+        "    ▓███▒  ░ ████▓▒░ ░ ██▒▓░░▓█  ▀█▓░ ████▓▒░ ░ ██▒▓░ ",
+        "    ▒▓▒▒░  ░ ▒░▒░▒░   ██▒▒▒ ░▒▓███▀▒░ ▒░▒░▒░   ██▒▒▒  ",
+        "    ▒ ░▒░    ░ ▒ ▒░ ▓██ ░▒░ ▒░▒   ░   ░ ▒ ▒░ ▓██ ░▒░  ",
+        "    ░ ░ ░  ░ ░ ░ ▒  ▒ ▒ ░░   ░    ░ ░ ░ ░ ▒  ▒ ▒ ░░   ",
+        "    ░   ░      ░ ░  ░ ░      ░          ░ ░  ░ ░      ",
+        "                    ░ ░           ░          ░ ░      ",
+        "                                                      ",
+      }
+
+      -- Set footer
+      local lazy_stats = require("lazy").stats() -- Get Lazy.nvim stats
+      dashboard.section.footer.val = {
+        "If You Don't Take Risks, You Can't Create a Future.",
+        " ",
+        "                                  - Monkey D. Luffy",
+        " ",
+        "             Plugins loaded: " .. lazy_stats.loaded .. " / " .. lazy_stats.count,
+      }
+
+      -- Send config to alpha
+      alpha.setup(dashboard.opts)
+
+      -- Disable folding on alpha buffer
+      vim.cmd([[
+        autocmd FileType alpha setlocal nofoldenable
+      ]])
+    end,
   },
 }
   
