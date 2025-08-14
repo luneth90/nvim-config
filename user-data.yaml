@@ -45,7 +45,9 @@ runcmd:
     curl -sSfL https://deno.land/install.sh | sh -s -- -y
 
     # Install uv
-    curl -LsSf https://astral.sh/uv/install.sh | sh -s -- -y
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    source $HOME/.local/bin/env
 
     # --- Configure Environment ---
     
@@ -54,12 +56,9 @@ runcmd:
     echo 'export PATH="$HOME/.deno/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
     # Install tree-sitter-cli from sources
-    ~/.cargo/bin/cargo install --locked tree-sitter-cli
+    cargo install --locked tree-sitter-cli
 
-    # Create a bin directory for local executables
-    mkdir -p ~/.local/bin
-
-    # Install VectorCode from its GitHub repository
+    # Install VectorCode 
     uv venv
     source .venv/bin/activate
     uv pip install vectorcode
@@ -78,7 +77,7 @@ runcmd:
     git clone https://github.com/luneth90/nvim-config.git ~/.config/nvim
 
     # Sync Neovim plugins with Lazy.nvim
-    ~/.local/bin/nvim --headless "+Lazy! sync" +qall
+    nvim --headless "+Lazy! sync" +qall
 
     #vectorcode config
     mkdir -p ~/.config/vectorcode
