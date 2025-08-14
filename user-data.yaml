@@ -25,7 +25,6 @@ packages:
   - npm
   - ripgrep
   - unzip
-  - pipx
 
 # Run commands to install user-specific tools
 runcmd:
@@ -45,6 +44,9 @@ runcmd:
     # Install deno
     curl -sSfL https://deno.land/install.sh | sh -s -- -y
 
+    # Install uv
+    curl -LsSf https://astral.sh/uv/install.sh | sh -s -- -y
+
     # --- Configure Environment ---
     
     # Update .bashrc with correct environment variables for cargo and deno
@@ -54,13 +56,18 @@ runcmd:
     # Install tree-sitter-cli from sources
     ~/.cargo/bin/cargo install --locked tree-sitter-cli
 
+    # Create a bin directory for local executables
+    mkdir -p ~/.local/bin
+
     # Install VectorCode from its GitHub repository
-    pipx install git+https://github.com/Davidyz/VectorCode.git
+    uv venv
+    source .venv/bin/activate
+    uv pip install vectorcode
+    uv pip install google-generativeai
+    cp ~/.venv/bin/vectorcode ~/.local/bin/
 
     # --- Setup Neovim ---
 
-    # Create a bin directory for local executables
-    mkdir -p ~/.local/bin
 
     # Download Neovim AppImage and make it executable
     wget -O ~/.local/bin/nvim https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage
@@ -72,6 +79,10 @@ runcmd:
 
     # Sync Neovim plugins with Lazy.nvim
     ~/.local/bin/nvim --headless "+Lazy! sync" +qall
+
+    #vectorcode config
+    mkdir -p ~/.config/vectorcode
+    cp ~/.config/nvim/config.json5 ~/.config/vectorcode/
 
     #openrouter config
     cp ~/.config/nvim/openrouter.lua ~/.local/share/nvim/lazy/codecompanion.nvim/lua/codecompanion/utils/

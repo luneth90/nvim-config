@@ -27,7 +27,6 @@ return {
   {
     "Davidyz/VectorCode",
     version = "*",
-    build = "pipx upgrade vectorcode", -- If you used pipx to install the CLI
     dependencies = { "nvim-lua/plenary.nvim" },
   },
 
