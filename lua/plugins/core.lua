@@ -21,7 +21,7 @@ return {
   {
     "toppair/peek.nvim",
     event = { "VeryLazy" },
-    build = "~/.deno/bin/deno task --quiet build:fast",
+    build = "deno task --quiet build:fast",
     config = function()
         require("peek").setup({
           app = 'browser',          -- 'webview', 'browser', string or a table of strings
