@@ -53,17 +53,15 @@ runcmd:
     # Update .bashrc with correct environment variables for cargo and deno
     echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
     echo 'export PATH="$HOME/.deno/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
-    source $HOME/.local/bin/env
-    source ~/.bashrc
 
     # Install tree-sitter-cli from sources
-    cargo install --locked tree-sitter-cli
+    ~/.cargo/bin/cargo install --locked tree-sitter-cli
 
     # Install VectorCode 
-    uv venv
+    ~/.local/bin/uv venv
     source .venv/bin/activate
-    uv pip install vectorcode
-    uv pip install google-generativeai
+    bash -c "source .venv/bin/activate && ~/.local/bin/uv pip install vectorcode"
+    bash -c "source .venv/bin/activate && ~/.local/bin/uv pip install google-generativeai"
     cp ~/.venv/bin/vectorcode ~/.local/bin/
 
     # --- Setup Neovim ---
@@ -78,7 +76,7 @@ runcmd:
     git clone https://github.com/luneth90/nvim-config.git ~/.config/nvim
 
     # Sync Neovim plugins with Lazy.nvim
-    nvim --headless "+Lazy! sync" +qall
+    ~/.local/bin/nvim --headless "+Lazy! sync" +qall
 
     #vectorcode config
     mkdir -p ~/.config/vectorcode
