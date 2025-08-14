@@ -4,18 +4,8 @@
 
 -- 基本设置
 
-vim.g.clipboard = {
-  name = 'myClipboard',
-  copy = {
-    ['+'] = { 'pbcopy' },
-    ['*'] = { 'pbcopy' },
-  },
-  paste = {
-    ['+'] = { 'pbpaste' },
-    ['*'] = { 'pbpaste' },
-  },
-  cache_enabled = 1,
-}
+vim.g.clipboard = "osc52"
+
 vim.opt.conceallevel = 2
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4 
