@@ -5,7 +5,7 @@ return {
       type = "server",
       port = "${port}",
       executable = {
-        command = "/Users/xiaowei/.local/share/nvim/mason/bin/codelldb",
+        command = "~/.local/share/nvim/mason/bin/codelldb",
         args = { "--port", "${port}" },
       },
     }
