@@ -31,13 +31,6 @@ return {
         vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
     end,
   },
-  -- MD nvim简单预览，不支持Latex
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    lazy = false,
-    priority = 49,
-    ft = { "markdown", "codecompanion"}
-  },
 
   -- 书签管理
   {
@@ -159,6 +152,7 @@ return {
           path = "/Users/luneth/Library/Mobile Documents/iCloud~md~obsidian/Documents/luneth",
         },
       },
+      legacy_commands = false,
 
     },
   },

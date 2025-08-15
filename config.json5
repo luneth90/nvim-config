@@ -11,16 +11,21 @@
 	"api_key": "GEMINI_API_KEY",
   	"model_name": "gemini-embedding-001",
   },
-  "chunk_size": 3072,
+  "embedding_dims": 3072,
+  "chunk_size": 1500,
   "overlap_ratio": 0.2,
-  "query_multiplier": -1,
-  //"reranker": "CrossEncoderReranker",
+  "query_multiplier": 10,
+  "reranker": "NaiveReranker",
   //"reranker_params": {
     //"model_name_or_path": "cross-encoder/ms-marco-MiniLM-L-6-v2"
   //},
   "hnsw": {
     "hnsw:M": 64
   },
-  "chunk_filters": {},
+  "filetype_map": {
+  },
+  "chunk_filters": {
+  },
+
   "encoding": "utf8"
 }

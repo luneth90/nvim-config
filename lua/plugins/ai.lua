@@ -232,7 +232,7 @@ return {
               -- if you use @vectorcode_vectorise, it'll be very handy to include
               -- `file_search` here.
               extras = {},
-              collapse = false, -- whether the individual tools should be shown in the chat
+              collapse = true, -- whether the individual tools should be shown in the chat
             },
             tool_opts = {
               ---@type VectorCode.CodeCompanion.ToolOpts
@@ -243,12 +243,12 @@ return {
               vectorise = {},
               ---@type VectorCode.CodeCompanion.QueryToolOpts
               query = {
-                max_num = { chunk = -1, document = -1 },
+                max_num = { chunk = 50, document = 20 },
                 default_num = { chunk = 50, document = 10 },
                 include_stderr = false,
-                use_lsp = false,
+                use_lsp = true,
                 no_duplicate = true,
-                chunk_mode = false,
+                chunk_mode = true,
                 ---@type VectorCode.CodeCompanion.SummariseOpts
                 summarise = {
                   ---@type boolean|(fun(chat: CodeCompanion.Chat, results: VectorCode.QueryResult[]):boolean)|nil
