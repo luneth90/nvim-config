@@ -4,11 +4,27 @@ return {
 
   -- rust lsp,debug 优化功能
   {
+    -- Automatically sets up LSP, so lsp.lua doesn't include rust.
+    -- Makes debugging work seamlessly.
     "mrcjkb/rustaceanvim",
     version = '^6', -- Recommended by module.
     ft = "rust",
     dependencies = {
       "mfussenegger/nvim-dap",
+    },
+    keys = {
+      { "<leader>rr", "<cmd>RustLsp run<cr>", desc = "Run" },
+      { "<leader>rd", "<cmd>RustLsp debug<cr>", desc = "Debug" },
+      { "<leader>ra", "<cmd>RustLsp codeAction<cr>", desc = "Code Action" },
+      { "<leader>rc", "<cmd>RustLsp openCargo<cr>", desc = "Open cargo.toml" },
+      { "<leader>rk", "<cmd>RustLsp openDocs<cr>", desc = "Open docs" },
+      { "<leader>rm", "<cmd>RustLsp parentModule<cr>", desc = "Parent Module" },
+      -- 添加 LSP 跳转相关的快捷键
+      { "gd", vim.lsp.buf.definition, desc = "Go to Definition" },
+      { "gD", vim.lsp.buf.declaration, desc = "Go to Declaration" },
+      { "gi", vim.lsp.buf.implementation, desc = "Go to Implementation" },
+      { "gr", vim.lsp.buf.references, desc = "Go to References" },
+      { "gt", vim.lsp.buf.type_definition, desc = "Go to Type Definition" },
     },
   },
   -- lsp 进度浮窗提示

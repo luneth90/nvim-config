@@ -20,7 +20,11 @@ return {
     end,
   },
   -- 导航条跳转
-  { "Bekaboo/dropbar.nvim", event = "BufReadPost", keys = { { "<leader>db", "<cmd>lua require('dropbar.api').pick()<CR>", desc = "Pick Dropbar" } } },
+  { "Bekaboo/dropbar.nvim", event = "BufReadPost", 
+    keys = { 
+      { "<leader>bd", "<cmd>lua require('dropbar.api').pick()<CR>", desc = "Pick Dropbar" } 
+    } 
+  },
 
   -- 状态栏显示
   { "nvim-lualine/lualine.nvim", event = "VimEnter", config = function()
