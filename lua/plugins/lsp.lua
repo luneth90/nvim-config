@@ -1,25 +1,16 @@
 return {
   { "williamboman/mason.nvim", config = function() require("mason").setup() end, opts = { ensure_installed = { "tree-sitter-cli" } } },
-  { "williamboman/mason-lspconfig.nvim", config = function() require("mason-lspconfig").setup({ ensure_installed = { "rust_analyzer", "ts_ls"} }) end },
-  -- lsp 默认插件配置
-  { "neovim/nvim-lspconfig", config = function()
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    require("lspconfig").rust_analyzer.setup({ capabilities = capabilities,include_declaration = false })
-    require("lspconfig").ts_ls.setup({ capabilities = capabilities,include_declaration = false })
-  end },
+  { "williamboman/mason-lspconfig.nvim", config = function() require("mason-lspconfig").setup({ ensure_installed = { "rust_analyzer"}) end },
 
-  --lsp 功能优化
+  -- rust lsp,debug 优化功能
   {
-      'nvimdev/lspsaga.nvim',
-      config = function()
-          require('lspsaga').setup({})
-      end,
-      keys = {
-        { "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>", desc = "Next Error" },
-      },
+    "mrcjkb/rustaceanvim",
+    version = '^6', -- Recommended by module.
+    ft = "rust",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
   },
-
-
   -- lsp 进度浮窗提示
   { "j-hui/fidget.nvim", tag = "legacy", opts = {} },
   
