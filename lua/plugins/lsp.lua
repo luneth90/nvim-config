@@ -1,6 +1,6 @@
 return {
   { "williamboman/mason.nvim", config = function() require("mason").setup() end, opts = { ensure_installed = { "tree-sitter-cli" } } },
-  { "williamboman/mason-lspconfig.nvim", config = function() require("mason-lspconfig").setup({ ensure_installed = { "rust_analyzer"}) end },
+  { "williamboman/mason-lspconfig.nvim", config = function() require("mason-lspconfig").setup({ ensure_installed = { "rust_analyzer"} }) end },
 
   -- rust lsp,debug 优化功能
   {
