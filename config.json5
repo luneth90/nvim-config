@@ -2,9 +2,9 @@
 {
   // "host": "127.0.0.1", // before 0.6.8
   // "port": 8000, // before 0.6.8
-  // "db_url": "http://127.0.0.1:8000", // since 0.6.8
-  //"db_path": "~/.local/share/vectorcode/chromadb/",
-  //"db_log_path": "~/.local/share/vectorcode/",
+  "db_url": "http://127.0.0.1:8000", // since 0.6.8
+  "db_path": "./.vectorcode/chromadb/",
+  "db_log_path": "./.vectorcode/",
   //"db_settings": null,
   "embedding_function": "GoogleGenerativeAiEmbeddingFunction",
   "embedding_params": {

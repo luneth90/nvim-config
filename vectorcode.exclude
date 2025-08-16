@@ -24,3 +24,4 @@ srs
 *.json
 *.circom
 *.csv
+.vectorcode
