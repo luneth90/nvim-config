@@ -149,7 +149,7 @@ return {
       workspaces = {
         {
           name = "luneth",
-          path = "/Users/luneth/Library/Mobile Documents/iCloud~md~obsidian/Documents/luneth",
+          path = "/Users/luneth/code/notes/luneth",
         },
       },
       legacy_commands = false,
