@@ -120,7 +120,7 @@ return {
         chat = {
           adapter = {
             name = "gemini",
-            model = "gemini-2.5-pro",
+            model = "gemini-2.5-flash",
             --model = "openai/gpt-oss-120b",
             --model = "openai/gpt-5-chat",
             --model = "qwen/qwen3-coder",
@@ -129,7 +129,7 @@ return {
         inline = {
           adapter = {
             name = "gemini",
-            model = "gemini-2.5-pro",
+            model = "gemini-2.5-flash",
             --model = "openai/gpt-5-chat",
             --model = "openai/o4-mini-high",
             --model = "openai/gpt-oss-120b",
@@ -243,10 +243,10 @@ return {
               vectorise = {},
               ---@type VectorCode.CodeCompanion.QueryToolOpts
               query = {
-                max_num = { chunk = 50, document = 20 },
-                default_num = { chunk = 50, document = 10 },
+                max_num = { chunk = 30, document = 10 },
+                default_num = { chunk = 30, document = 10 },
                 include_stderr = false,
-                use_lsp = true,
+                use_lsp = false,
                 no_duplicate = true,
                 chunk_mode = true,
                 ---@type VectorCode.CodeCompanion.SummariseOpts
