@@ -21,19 +21,26 @@ return {
     config = function()
       require('conform').setup({
         formatters_by_ft = {
+          lua = { "stylua" },
+          -- Prettier 可以格式化多种文件类型
           javascript = { "prettier" },
           typescript = { "prettier" },
-          html = { "prettier" },
+          javascriptreact = { "prettier" },
+          typescriptreact = { "prettier" },
+          vue = { "prettier" },
           css = { "prettier" },
+          scss = { "prettier" },
+          html = { "prettier" },
           json = { "prettier" },
-          lua = { "stylua" },
-          rust = { "rustfmt", lsp_format = "fallback" },
-          python = { "isort","black" },
+          yaml = { "prettier" },
+          markdown = { "prettier" },
+          rust = { "rustfmt" },
+          python = { "black" },
         },
         format_on_save = {
           -- These options will be passed to conform.format()
           timeout_ms = 500,
-          lsp_format = "fallback",
+          lsp_fallback = true,
         },
       })
     end,

@@ -20,6 +20,7 @@ packages:
   - curl
   - python3
   - python3-pip
+  - python3-venv
   - lua5.3
   - nodejs
   - npm
