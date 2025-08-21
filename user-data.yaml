@@ -33,7 +33,7 @@ runcmd:
   # This script is then piped to 'su' to be executed as the '' user.
   - |
     #!/bin/bash
-    
+
     cat <<'EOF' | su - luneth
     set -ex
 
@@ -50,13 +50,10 @@ runcmd:
 
 
     # --- Configure Environment ---
-    
+
     # Update .bashrc with correct environment variables for cargo and deno
     echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
     echo 'export PATH="$HOME/.deno/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
-
-    # Install tree-sitter-cli from sources
-    ~/.cargo/bin/cargo install --locked tree-sitter-cli
 
     # Install VectorCode 
     ~/.local/bin/uv venv
@@ -86,7 +83,7 @@ runcmd:
 
     #openrouter config
     cp ~/.config/nvim/openrouter.lua ~/.local/share/nvim/lazy/codecompanion.nvim/lua/codecompanion/utils/
-    
+
     echo "--- User setup completed successfully ---"
     EOF
 
@@ -98,7 +95,7 @@ write_files:
       deb http://archive.ubuntu.com/ubuntu/ noble-updates main restricted universe multiverse
       deb http://archive.ubuntu.com/ubuntu/ noble-backports main restricted universe multiverse
       deb http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse
-    permissions: '0644'
+    permissions: "0644"
 
 # Final message
 final_message: "Ubuntu setup completed after $UPTIME seconds"
