@@ -172,6 +172,7 @@ return {
 					"toml",
 					"yaml",
 					"css",
+					"tsx",
 					"typescript",
 					"markdown",
 					"markdown_inline",
