@@ -1,11 +1,16 @@
 return {
 	{
 		"williamboman/mason.nvim",
+		opts = {},
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		dependencies = { "williamboman/mason.nvim" },
 		opts = {
 			ensure_installed = {
 				-- LSPs (语言服务器)
-				"html",
 				"rust_analyzer",
+				"html",
 				"lua_ls",
 				"ts_ls",
 				"cssls",
@@ -14,21 +19,12 @@ return {
 				"vimls",
 				"pyright",
 				"tailwindcss",
-				"vue_ls",
-			},
-		},
-	},
-	{
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		dependencies = { "williamboman/mason.nvim" },
-		opts = {
-			ensure_installed = {
+				"vue-language-server",
+				"tree-sitter-cli",
 				-- Formatters (格式化工具)
 				"stylua",
 				"black",
 				"prettier",
-				"tree-sitter-cli",
-				"vue-language-server",
 				-- debug
 				"codelldb",
 			},
