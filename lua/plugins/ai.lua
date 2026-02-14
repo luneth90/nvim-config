@@ -116,7 +116,7 @@ return {
 					output = {
 						tools = {
 							show_output = true, -- Show tools output [diffs, cmd output, etc.] (default: true)
-							show_reasoning_output = true, -- Show reasoning/thinking steps output (default: true)
+							show_reasoning_output = false, -- Show reasoning/thinking steps output (default: true)
 						},
 						rendering = {
 							markdown_debounce_ms = 250, -- Debounce time for markdown rendering on new data (default: 250ms)
@@ -138,7 +138,7 @@ return {
 					completion = {
 						file_sources = {
 							enabled = true,
-							preferred_cli_tool = "server", -- 'fd','fdfind','rg','git','server' if nil, it will use the best available tool, 'server' uses opencode cli to get file list (works cross platform) and supports folders
+							preferred_cli_tool = "rg", -- 'fd','fdfind','rg','git','server' if nil, it will use the best available tool, 'server' uses opencode cli to get file list (works cross platform) and supports folders
 							ignore_patterns = {
 								"^%.git/",
 								"^%.svn/",
