@@ -69,7 +69,7 @@ runcmd:
 
 
     # Download Neovim AppImage and make it executable
-    wget -O ~/.local/bin/nvim https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage
+    wget -O ~/.local/bin/nvim https://github.com/neovim/neovim/releases/download/v0.11.6/nvim-linux-arm64.appimage
     chmod u+x ~/.local/bin/nvim
 
     # Clone your Neovim config
