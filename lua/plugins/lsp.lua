@@ -152,41 +152,8 @@ return {
 	-- 语法高亮，核心插件
 	{
 		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
 		build = ":TSUpdate",
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = {
-					"vue",
-					"c",
-					"lua",
-					"vim",
-					"vimdoc",
-					"rust",
-					"python",
-					"javascript",
-					"html",
-					"toml",
-					"yaml",
-					"css",
-					"tsx",
-					"typescript",
-					"markdown",
-					"markdown_inline",
-				},
-				sync_install = true,
-				highlight = { enable = true },
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<CR>",
-						node_incremental = "<CR>",
-						node_decremental = "<BS>",
-						scope_incremental = "<TAB>",
-					},
-				},
-				indent = { enable = true },
-			})
-		end,
 	},
 
 	-- 错误提示
