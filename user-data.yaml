@@ -62,6 +62,9 @@ runcmd:
     bash -c "source .venv/bin/activate && ~/.local/bin/uv pip install google-generativeai"
     cp ~/.venv/bin/vectorcode ~/.local/bin/
 
+    # 安装 OpenCode
+    curl -fsSL https://opencode.ai/install | bash
+
     # --- Setup Neovim ---
 
 
