@@ -48,25 +48,16 @@ runcmd:
     # Install uv
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
-
     # --- Configure Environment ---
 
     # Update .bashrc with correct environment variables for cargo and deno
     echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
     echo 'export PATH="$HOME/.deno/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
-    # Install VectorCode 
-    ~/.local/bin/uv venv
-    source .venv/bin/activate
-    bash -c "source .venv/bin/activate && ~/.local/bin/uv pip install vectorcode"
-    bash -c "source .venv/bin/activate && ~/.local/bin/uv pip install google-generativeai"
-    cp ~/.venv/bin/vectorcode ~/.local/bin/
-
     # 安装 OpenCode
     curl -fsSL https://opencode.ai/install | bash
 
     # --- Setup Neovim ---
-
 
     # Download Neovim AppImage and make it executable
     wget -O ~/.local/bin/nvim https://github.com/neovim/neovim/releases/download/v0.11.6/nvim-linux-arm64.appimage
@@ -79,10 +70,6 @@ runcmd:
     # Sync Neovim plugins with Lazy.nvim
     ~/.local/bin/nvim --headless "+Lazy! sync" +qall
 
-    #vectorcode config
-    mkdir -p ~/.config/vectorcode
-    cp ~/.config/nvim/config.json5 ~/.config/vectorcode/
-    cp ~/.config/nvim/vectorcode.exclude ~/.config/vectorcode/
 
     echo "--- User setup completed successfully ---"
     EOF
