@@ -4,11 +4,6 @@ local system_prompt_info_rust_en = [[
 return {
 
 	{
-		"Davidyz/VectorCode",
-		version = "*",
-		dependencies = { "nvim-lua/plenary.nvim" },
-	},
-	{
 		"sudo-tee/opencode.nvim",
 		config = function()
 			-- Default configuration with all available options
