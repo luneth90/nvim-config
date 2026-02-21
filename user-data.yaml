@@ -54,8 +54,8 @@ runcmd:
     echo 'export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
     echo 'export PATH="$HOME/.deno/bin:$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
-    # 安装 OpenCode
-    curl -fsSL https://opencode.ai/install | bash
+    # 安装 Claude Code
+    curl -fsSL https://claude.ai/install.sh | bash
 
     # --- Setup Neovim ---
 
