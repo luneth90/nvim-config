@@ -26,6 +26,9 @@ packages:
   - npm
   - ripgrep
   - unzip
+  - libpoppler-cpp-dev
+  - pkg-config
+  - python3-dev
 
 # Run commands to install user-specific tools
 runcmd:
@@ -47,6 +50,9 @@ runcmd:
 
     # Install uv
     curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    # Install pdf tool
+    pip3 install pdftotext --break-system-packages
 
     # --- Configure Environment ---
 
